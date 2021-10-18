@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+           #ausgabe img { /* alle Bilder gleich groß forcen */
+            width:400px;
+            height:300px;
+        }
+        #dots span {
+            border:1px solid #000;
+            border-radius:50%;
+            margin:5px;
+            display:inline-block;
+            width:15px;
+            height:15px;
+        }
+        #dots span.aktiv {
+            background:#f00;
+        }
+    </style>
+</head>
+<body>
+    <div id="wrapper">
+        <div id="ausgabe">
+        </div>
+        <button id="prev">voriges</button>
+        <button id="next">nächstes</button>
+        <div id="dots"><!-- pro Bild ein "dot" --></div>
+    </div>
+    <script>
+        // Variable mit Array mit Dateinamen/Bilder
+        var alleBilder = [ // alle Pfade meiner Bilder
+            'das-paradies-fuer-wintersportler.jpg',
+            'endlos-weite-schwuenge-ueber-perfekt-praeparierte-pisten-ziehen.jpg',
+            'erlebnishotel-fendels-familienhit.jpg',
+            'fruehlings-special-top-of-tyrol.jpg',
+            'hotel-tia-monte-nahe-am-gletscher.jpg',
+            'langlaufen-osttirol.jpeg',
+            'open-faces-freeride-series-in-kappl.jpg'
+        ];
+        var machBilderNav = function() {
+            var spanLinkAll;
+            var div = document.getElementById( 'dots' );
+            div.innerHTML = '';
+            var i;
+            for ( i = 0; i<alleBilder.length; i++ ) {
+                // div.innerHTML += '<span class="'+(i == indexBild ? 'aktiv' : '' ) +'"></span>';
+                var spanLink = document.createElement( 'span' );
+                i == indexBild  ? spanLink.classList.add( 'aktiv') : '' ;
+                div.appendChild(spanLink);
+
+            }
+            spanLinkAll = document.querySelectorAll('span');
+            for (let j = 0; j < spanLinkAll.length; j++) {
+                spanLinkAll[j].onclick = function (){
+                    indexBild = j;
+                    anderesBild(indexBild);
+                }
+            }
+        }
+
+        var anderesBild = function(indexBild) {
+            document.getElementById( 'ausgabe' ).innerHTML = '<img src="images/' + alleBilder[ indexBild ] +'">';
+            machBilderNav();
+        }   
+
+        var indexBild = 0;
+        anderesBild(indexBild);
+
+        var btnBildAendern = function( ix ) {
+            indexBild+=ix;
+            if( indexBild > alleBilder.length - 1) {
+                indexBild = 0;
+            } 
+            if ( indexBild < 0 ) {
+                indexBild = alleBilder.length - 1;
+            }
+            anderesBild(indexBild);
+        }
+
+
+        document.getElementById( 'next' ).onclick = function() {
+            btnBildAendern(1);
+        }
+
+        document.getElementById( 'prev' ).onclick = function() {
+            btnBildAendern(-1);
+        }
+
+
+
+    </script>
+    
+</body>
+</html>
